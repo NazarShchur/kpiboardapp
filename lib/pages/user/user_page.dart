@@ -26,13 +26,13 @@ class UserPageState extends State<UserPage> {
                 appBar: AppBar(
                   title: Text("User Page"),
                   actions: [
-                    user.role == Role.ADMIN
+                    [Role.ADMIN, Role.MODERATOR].contains(user.role)
                         ? IconButton(
                             icon: Icon(Icons.verified_user_outlined),
                             onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AdminPage())))
+                                    builder: (context) => AdminPage(user: user))))
                         : Container(),
                     IconButton(
                         icon: Icon(Icons.logout),

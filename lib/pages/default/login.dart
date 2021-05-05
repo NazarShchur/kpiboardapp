@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kpiboardapp/constants.dart';
 import 'package:kpiboardapp/entity/User.dart';
 import 'package:kpiboardapp/pages/default/register.dart';
 import 'package:kpiboardapp/pages/user/user_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 
 
@@ -17,7 +20,7 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  var api = "http://192.168.0.102:8080/auth/login";
+  var api = Constants.HOST + "auth/login";
   var username;
   var password;
   var message = "";

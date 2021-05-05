@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kpiboardapp/constants.dart';
 import 'package:kpiboardapp/entity/User.dart';
 import 'package:kpiboardapp/pages/user/user_page.dart';
 
@@ -16,7 +17,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class RegistrationPageState extends State<RegistrationPage> {
-  var api = "http://192.168.0.102:8080/auth/register";
+  var api = Constants.HOST + "auth/register";
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   var username;
   var password;
