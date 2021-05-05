@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kpiboardapp/entity/User.dart';
-import 'package:kpiboardapp/entity/role.dart';
 import 'package:kpiboardapp/pages/admin/all_users.dart';
 
 import '../AdminOnly.dart';
+import 'new_post_page.dart';
 
 class AdminPage extends StatelessWidget {
   final User user;

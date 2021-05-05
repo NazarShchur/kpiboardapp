@@ -18,3 +18,22 @@ Future<Response> get(String url) async {
       headers: {"Authorization": "Bearer_" + _prefs.get("token")});
   return request;
 }
+
+Future<Response> put(String url, {Map<String, String> body}) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  var request = http.put(Constants.HOST + url,
+      headers: {"Authorization": "Bearer_" + _prefs.get("token")},
+      body: body
+  );
+  return request;
+}
+
+Future<Response> delete(String url) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  var request = http.delete(Constants.HOST + url,
+      headers: {"Authorization": "Bearer_" + _prefs.get("token")},
+  );
+  return request;
+}
+
+

@@ -5,7 +5,6 @@ import 'package:kpiboardapp/api/request_builder.dart' as rb;
 import 'package:kpiboardapp/entity/User.dart';
 import 'package:kpiboardapp/entity/role.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 
 class AdminApiImpl implements AdminApi{
