@@ -7,7 +7,7 @@ abstract class PostApi {
 
   Future<Post> update(Post post);
 
-  Future<List<Post>> allPosts();
+  Future<List<Post>> allPosts({Map<String, dynamic> filters});
 
   Future<Post> findById(int id);
 

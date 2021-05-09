@@ -7,6 +7,9 @@ import 'package:kpiboardapp/entity/User.dart';
 import 'package:kpiboardapp/entity/psot.dart';
 import 'package:kpiboardapp/entity/role.dart';
 import 'package:kpiboardapp/pages/admin/edit_post_page.dart';
+import 'package:kpiboardapp/pages/change_notifier/GlobalNotifier.dart';
+import 'package:kpiboardapp/pages/default/posts.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PostPage extends StatefulWidget {
@@ -27,32 +30,45 @@ class PostState extends State<PostPage> {
       future: principal(),
       builder: (c, snap) {
         var user = snap.data;
-        return snap.hasData ? Scaffold(
-            appBar: AppBar(
-              title: Text(widget.post.Header(), overflow: TextOverflow.ellipsis),
-              actions: [[Role.ADMIN, Role.MODERATOR].contains(user.role) ? EditPost(post: widget.post) : Container()],
-            ),
-            body: ListView(
-              children: [
-                widget.post.image == null
-                    ? Container()
-                : Image.network(widget.post.image, loadingBuilder: (BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null ?
-                      loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                          : null,
-                    ),
-                  );
-                },),
-                Container(
-                  child: Center(
-                    child: Text(widget.post.Text()),
-                  ),
+        return Scaffold(
+                appBar: AppBar(
+                  title:
+                      Text(widget.post.header, overflow: TextOverflow.ellipsis),
+                  actions: [
+                    snap.hasData && [Role.ADMIN, Role.MODERATOR].contains(user.role)
+                        ? EditPost(post: widget.post)
+                        : Container()
+                  ],
                 ),
-              ],
-            )) : CircularProgressIndicator();
+                body: snap.hasData
+                    ? ListView(
+                  children: [
+                    widget.post.image == null
+                        ? Container()
+                        : Image.network(
+                            widget.post.image,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
+                    Container(
+                      child: Center(
+                        child: Text(widget.post.text),
+                      ),
+                    ),
+                  ],
+                ): Center(child: CircularProgressIndicator()));
+
       },
     );
   }
@@ -75,8 +91,10 @@ class EditPost extends StatefulWidget {
 class EditPostState extends State<EditPost> {
   var button = "Edit";
   var postApi = PostApiImpl();
+
   @override
   Widget build(BuildContext context) {
+    final notifier = Provider.of<GlobalNotifier>(context);
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: DropdownButtonHideUnderline(
@@ -105,7 +123,13 @@ class EditPostState extends State<EditPost> {
                     MaterialPageRoute(
                         builder: (c) => EditPostPage(post: widget.post)));
               } else if (val == "Delete") {
-                postApi.delete(widget.post).then((value) => Navigator.pop(context));
+                postApi.delete(widget.post).then((value) {
+                  notifier.update();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (c) => Posts()));
+                });
               }
             }),
       ),

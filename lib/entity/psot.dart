@@ -12,13 +12,6 @@ class Post {
   DateTime date;
   String image;
 
-  String Header() {
-    utf8.decode(header.runes.toList());
-  }
-  String Text() {
-    utf8.decode(text.runes.toList());
-  }
-
   Post({this.id, this.header, this.text, this.author, this.date, this.image});
 
   static List<Post> posts(List<dynamic> list) {
