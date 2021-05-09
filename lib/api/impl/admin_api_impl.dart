@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AdminApiImpl implements AdminApi{
-  final String allUsers = "admin/userlist";
-  final String setRole = "admin/setrole";
+  final String allUsers = "/admin/userlist";
+  final String setRole = "/admin/setrole";
   @override
   Future<List<User>> findAllUsers() async{
     SharedPreferences _prefs = await SharedPreferences.getInstance();

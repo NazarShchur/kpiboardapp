@@ -1,17 +1,22 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:kpiboardapp/api/post_api.dart';
+import 'package:kpiboardapp/constants.dart';
 import 'package:kpiboardapp/entity/psot.dart';
 import 'package:kpiboardapp/api/request_builder.dart' as rb;
-import 'package:kpiboardapp/pages/default/principal.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class PostApiImpl implements PostApi{
-  final String posts = "posts";
+  final String posts = "/posts";
   @override
   Future<List<Post>> allPosts() async{
     var req = rb.get(posts);
     var resp = await req;
-    var list = jsonDecode(resp.body);
+    var list = jsonDecode(utf8.decode(resp.body.runes.toList()));
     List<Post> p = [];
     for(var e in list) {
       p.add(Post.fromJson(e as Map<String, dynamic>));
@@ -40,17 +45,40 @@ class PostApiImpl implements PostApi{
   }
 
   @override
-  Future<Post> save(Post post) async{
+  Future<Post> save(Post post, {image: File}) async{
+    if(image != null) {
+      post.image = await uploadImage(image);
+    }
     var req = rb.post(posts, body: jsonEncode(post.toJson()));
     var resp = await req;
     return Post.fromJson(jsonDecode(resp.body));
   }
 
   @override
-  Future<Post> update(Post post) async{
+  Future<Post> update(Post post, {image: File}) async{
+    if(image != null) {
+      post.image = await uploadImage(image);
+    }
     var req = rb.put(posts, body: jsonEncode(post.toJson()));
     var resp = await req;
     return Post.fromJson(jsonDecode(resp.body));
+  }
+
+  @override
+  Future<String> uploadImage(File file) async{
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    var formData = FormData.fromMap({
+     "file" : await MultipartFile.fromFile(file.path)
+    });
+    var options = Options(
+      responseType: ResponseType.plain,
+        headers: {
+      "Authorization": "Bearer_" + _prefs.get("token"),
+      "Accept": "application/json",
+      "content-type": "application/json"
+    });
+    var resp = await Dio().post("http://${Constants.HOST}/posts/image", data: formData, options: options);
+    return resp.data;
   }
 
 }

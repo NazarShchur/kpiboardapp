@@ -17,7 +17,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class RegistrationPageState extends State<RegistrationPage> {
-  var api = Constants.HOST + "auth/register";
+  var api = Constants.HOST + "/auth/register";
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   var username;
   var password;
@@ -71,7 +71,7 @@ class RegistrationPageState extends State<RegistrationPage> {
   }
 
   void _register() async{
-    var response = await http.post(api, body: jsonEncode(User.us(username, password).toJson()),  headers: {
+    var response = await http.post(Uri.http(Constants.HOST, "/auth/register"), body: jsonEncode(User.us(username, password).toJson()),  headers: {
     "Accept": "application/json",
     "content-type": "application/json"});
     final SharedPreferences prefs = await _prefs;

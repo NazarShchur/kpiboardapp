@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:kpiboardapp/main.dart';
 
 import 'User.dart';
@@ -8,8 +10,16 @@ class Post {
   String text;
   User author;
   DateTime date;
+  String image;
 
-  Post({this.id, this.header, this.text, this.author, this.date});
+  String Header() {
+    utf8.decode(header.runes.toList());
+  }
+  String Text() {
+    utf8.decode(text.runes.toList());
+  }
+
+  Post({this.id, this.header, this.text, this.author, this.date, this.image});
 
   static List<Post> posts(List<dynamic> list) {
     List<Post> p = [];
@@ -25,10 +35,12 @@ class Post {
         header: json["header"],
         text: json["text"],
         author: User.fromJson(json["author"] as Map<String, dynamic>),
-        date: DateTime(json["date"][0], json["date"][1], json["date"][2]));
+        date: DateTime(json["date"][0], json["date"][1], json["date"][2]),
+        image: json["image"]
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {"id": id, "text": text, "header": header};
+    return {"id": id, "text": text, "header": header, "image": image};
   }
 }

@@ -29,13 +29,29 @@ class PostState extends State<PostPage> {
         var user = snap.data;
         return snap.hasData ? Scaffold(
             appBar: AppBar(
-              title: Text(widget.post.header, overflow: TextOverflow.ellipsis),
+              title: Text(widget.post.Header(), overflow: TextOverflow.ellipsis),
               actions: [[Role.ADMIN, Role.MODERATOR].contains(user.role) ? EditPost(post: widget.post) : Container()],
             ),
-            body: Container(
-              child: Center(
-                child: Text(widget.post.text),
-              ),
+            body: ListView(
+              children: [
+                widget.post.image == null
+                    ? Container()
+                : Image.network(widget.post.image, loadingBuilder: (BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null ?
+                      loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                          : null,
+                    ),
+                  );
+                },),
+                Container(
+                  child: Center(
+                    child: Text(widget.post.Text()),
+                  ),
+                ),
+              ],
             )) : CircularProgressIndicator();
       },
     );

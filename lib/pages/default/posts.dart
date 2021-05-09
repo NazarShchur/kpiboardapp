@@ -77,7 +77,7 @@ class PostPreview extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
-        padding: EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -103,6 +103,17 @@ class PostPreview extends StatelessWidget {
             Text(post.header,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 overflow: TextOverflow.ellipsis),
+            post.image == null ? Container() :
+            Image.network(post.image, loadingBuilder: (BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null ?
+                  loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                      : null,
+                ),
+              );
+            }),
             Text(post.text,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,

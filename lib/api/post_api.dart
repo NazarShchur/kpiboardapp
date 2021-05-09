@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:kpiboardapp/entity/psot.dart';
 
 abstract class PostApi {
@@ -10,4 +12,6 @@ abstract class PostApi {
   Future<Post> findById(int id);
 
   Future<void> delete(Post post);
+
+  Future<String> uploadImage(File file);
 }

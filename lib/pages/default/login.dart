@@ -20,7 +20,7 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  var api = Constants.HOST + "auth/login";
+  var api = Constants.HOST + "/auth/login";
   var username;
   var password;
   var message = "";
@@ -84,7 +84,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _login() async{
-    var response = await http.post(api, body: jsonEncode(User.us(username, password).toJson()),  headers: {
+    var response = await http.post(Uri.http(Constants.HOST, "auth/login"), body: jsonEncode(User.us(username, password).toJson()),  headers: {
       "Accept": "application/json",
       "content-type": "application/json"});
     final SharedPreferences prefs = await _prefs;

@@ -1,3 +1,3 @@
 abstract class Constants {
-  static final String HOST = "http://192.168.0.106:8080/";
+  static final String HOST = "192.168.0.106:8080";
 }
