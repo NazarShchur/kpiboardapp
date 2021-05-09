@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:kpiboardapp/api/post_api.dart';
 import 'package:kpiboardapp/entity/psot.dart';
 import 'package:kpiboardapp/api/request_builder.dart' as rb;
+import 'package:kpiboardapp/pages/default/principal.dart';
 
 class PostApiImpl implements PostApi{
   final String posts = "posts";
@@ -10,8 +11,19 @@ class PostApiImpl implements PostApi{
   Future<List<Post>> allPosts() async{
     var req = rb.get(posts);
     var resp = await req;
-    var list = jsonDecode(resp.body) as List<Map<String, dynamic>>;
-    return list.map((e) => Post.fromJson(e));
+    var list = jsonDecode(resp.body);
+    List<Post> p = [];
+    for(var e in list) {
+      p.add(Post.fromJson(e as Map<String, dynamic>));
+    }
+    p.sort((a, b){
+      if(a.date.isAfter(b.date)){
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    return p;
   }
 
   @override

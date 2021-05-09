@@ -24,10 +24,10 @@ class AdminApiImpl implements AdminApi{
 
   @override
   Future<void> setUserRole(Role role, int id) async{
-    var req = rb.post(setRole, body: {
+    var req = rb.post(setRole, body: jsonEncode({
       "id" : id.toString(),
       "role" : role.toStr()
-    });
+    }));
     await req;
   }
 

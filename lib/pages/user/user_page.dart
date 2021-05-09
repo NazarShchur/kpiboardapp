@@ -5,6 +5,7 @@ import 'package:kpiboardapp/entity/User.dart';
 import 'package:kpiboardapp/entity/role.dart';
 import 'package:kpiboardapp/pages/admin/admin_panel.dart';
 import 'package:kpiboardapp/pages/default/login.dart';
+import 'package:kpiboardapp/pages/default/posts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
@@ -51,7 +52,11 @@ class UserPageState extends State<UserPage> {
                 body: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text("Username: " + user.username)],
+                    children: [
+                      Text("Username: " + user.username),
+                      TextButton(onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Posts()));
+                      }, child: Text("Posts"))],
                   ),
                 ));
           } else {
