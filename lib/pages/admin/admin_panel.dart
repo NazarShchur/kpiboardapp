@@ -9,7 +9,7 @@ import 'new_post_page.dart';
 class AdminPage extends StatelessWidget {
   final User user;
 
-  const AdminPage({Key key, this.user}) : super(key: key);
+  const AdminPage({Key key, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
