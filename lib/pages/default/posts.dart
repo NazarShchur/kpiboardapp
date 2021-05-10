@@ -7,6 +7,7 @@ import 'package:kpiboardapp/pages/change_notifier/GlobalNotifier.dart';
 import 'package:kpiboardapp/pages/default/filters_popup.dart';
 import 'package:kpiboardapp/pages/default/post_page.dart';
 import 'package:kpiboardapp/pages/default/date_ext.dart';
+import 'package:kpiboardapp/pages/user/board_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -88,6 +89,7 @@ class PostsState extends State<Posts> {
           )
         ],
       ),
+      drawer: BoardDrawer(),
       body: Container(
         color: Color(0xFFF2F2F2),
         child: SmartRefresher(
@@ -143,12 +145,14 @@ class PostPreview extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 3),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Text(post.header,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   overflow: TextOverflow.ellipsis),
             ),
+            SizedBox(height: 5),
             post.image == null
                 ? Container()
                 : Image.network(post.image, loadingBuilder:
@@ -164,6 +168,7 @@ class PostPreview extends StatelessWidget {
                       ),
                     );
                   }),
+            SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Text(post.text,

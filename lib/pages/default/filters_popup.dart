@@ -48,8 +48,26 @@ class _FiltersState extends State<FiltersPopup> {
       appBar: AppBar(),
       body: Column(
         children: [
-          TextField(controller: text),
-          TextField(controller: author),
+          Container(
+            padding: EdgeInsets.only(left: 25, right: 25),
+            child: TextField(
+              controller: text,
+              decoration: InputDecoration(
+                labelText: "Search",
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 25, right: 25),
+            child: TextField(
+              controller: author,
+              decoration: InputDecoration(
+                labelText: "Author",
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+              ),
+            ),
+          ),
           RadioListTile(
             title: const Text('All the time'),
             value: false,
@@ -73,31 +91,57 @@ class _FiltersState extends State<FiltersPopup> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              FlatButton(
-                  textColor: isDated ? Colors.black : Colors.grey,
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onPressed: () {
-                    if (isDated) {
-                      _startDate(context);
-                    }
-                  },
-                  child: Text(
-                      "From ${startDate == null ? "..." : startDate.date()}")),
-              FlatButton(
-                  textColor: isDated ? Colors.black : Colors.grey,
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onPressed: () {
-                    if (isDated) {
-                      _endDate(context);
-                    }
-                  },
-                  child:
-                      Text("To ${endDate == null ? "..." : endDate.date()}")),
-
+              Container(
+                decoration: BoxDecoration(
+                    color:
+                        isDated ? Colors.white : Colors.grey.withOpacity(0.4),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 0.5,
+                        blurRadius: 0.5,
+                        offset: Offset(0, 0.5), // changes position of shadow
+                      ),
+                    ]),
+                child: FlatButton(
+                    textColor: isDated ? Colors.black : Colors.grey,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {
+                      if (isDated) {
+                        _startDate(context);
+                      }
+                    },
+                    child: Text(
+                        "From ${startDate == null ? "..." : startDate.date()}")),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color:
+                        isDated ? Colors.white : Colors.grey.withOpacity(0.4),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 0.5,
+                        blurRadius: 0.5,
+                        offset: Offset(0, 0.5), // changes position of shadow
+                      ),
+                    ]),
+                child: FlatButton(
+                    textColor: isDated ? Colors.black : Colors.grey,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {
+                      if (isDated) {
+                        _endDate(context);
+                      }
+                    },
+                    child:
+                        Text("To ${endDate == null ? "..." : endDate.date()}")),
+              ),
             ],
           ),
+          SizedBox(height: 20),
           FlatButton(
               color: Theme.of(context).accentColor,
               minWidth: double.maxFinite,
@@ -115,7 +159,12 @@ class _FiltersState extends State<FiltersPopup> {
                     MaterialPageRoute(
                         builder: (BuildContext context) => Posts()));
               },
-              child: Text("Search"))
+              child: Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
+                    "Search",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  )))
         ],
       ),
     );

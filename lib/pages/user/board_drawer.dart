@@ -6,6 +6,7 @@ import 'package:kpiboardapp/pages/admin/admin_panel.dart';
 import 'package:kpiboardapp/pages/default/login.dart';
 import 'package:kpiboardapp/pages/default/posts.dart';
 import 'package:kpiboardapp/pages/default/principal.dart';
+import 'package:kpiboardapp/pages/user/user_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BoardDrawer extends StatelessWidget {
@@ -71,6 +72,40 @@ class BoardDrawer extends StatelessWidget {
                                       ]),
                                   child: TextButton(
                                     onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  UserPage(owner: user)));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10),
+                                        Icon(Icons.account_circle_outlined),
+                                        SizedBox(width: 30),
+                                        Text("User page")
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 2,
+                                          offset: Offset(0,
+                                              1), // changes position of shadow
+                                        ),
+                                      ]),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -105,11 +140,12 @@ class BoardDrawer extends StatelessWidget {
                                       ]),
                                   child: TextButton(
                                     onPressed: () {
+                                      Navigator.pop(context);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
-                                                  AdminPage(user: user,)));
+                                                  AdminPage(user: user)));
                                     },
                                     child: Row(
                                       children: [
@@ -141,6 +177,13 @@ class BoardDrawer extends StatelessWidget {
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   prefs.clear();
+                                  while(Navigator.canPop(context)){
+                                    try{
+                                      Navigator.pop(context);
+                                    } catch(e) {
+                                      break;
+                                    }
+                                  }
                                   Navigator.pop(context);
                                   Navigator.push(
                                       context,

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kpiboardapp/api/impl/user_api_impl.dart';
 import 'package:kpiboardapp/constants.dart';
 import 'package:kpiboardapp/entity/User.dart';
 import 'package:kpiboardapp/pages/default/register.dart';
@@ -110,9 +111,10 @@ class LoginPageState extends State<LoginPage> {
     prefs.setString("username", jsonDecode(response.body)["username"]);
     prefs.setString("role", jsonDecode(response.body)["role"]);
     if (response.statusCode == 200) {
+      var owner = await UserApiImpl().findByUsername(username);
       Navigator.pop(context);
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => UserPage()));
+          context, MaterialPageRoute(builder: (context) => UserPage(owner: owner)));
     } else {
       setState(() {
         message = "Incorrect Credentials";

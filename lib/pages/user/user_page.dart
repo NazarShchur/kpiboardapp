@@ -10,6 +10,9 @@ import 'package:kpiboardapp/pages/user/board_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
+  final User owner;
+
+  const UserPage({Key key, @required this.owner}) : super(key: key);
   @override
   State<StatefulWidget> createState() => UserPageState();
 }
@@ -22,15 +25,14 @@ class UserPageState extends State<UserPage> {
     return FutureBuilder(
         future: principal(),
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-          final user = snapshot.data;
+         // final user = snapshot.data;
           return Scaffold(
               appBar: AppBar(
                 shadowColor: Colors.transparent,
                 title: Text("User Page"),
               ),
               drawer: BoardDrawer(),
-              body: snapshot.hasData
-                  ? Container(
+              body:Container(
                       color: Color(0xFFF2F2F2),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -46,7 +48,7 @@ class UserPageState extends State<UserPage> {
                                   Icon(Icons.account_circle_outlined,
                                       color: Colors.white, size: 130),
                                   Text(
-                                    "${user.name} ${user.surname}",
+                                    "${widget.owner.name} ${widget.owner.surname}",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -70,7 +72,7 @@ class UserPageState extends State<UserPage> {
                               children: [
                                 Text("Email:", style: TextStyle(fontWeight: FontWeight.bold)),
                                 SizedBox(width: 40),
-                                Text(user.email??"-"),
+                                Text(widget.owner.email??"-"),
                               ],
                             ),
                           ),
@@ -89,14 +91,14 @@ class UserPageState extends State<UserPage> {
                               children: [
                                 Text("Phone:", style: TextStyle(fontWeight: FontWeight.bold)),
                                 SizedBox(width: 40),
-                                Text(user.phone??"-"),
+                                Text(widget.owner.phone??"-"),
                               ],
                             ),
                           ),
                         ],
                       ),
                     )
-                  : Center(child: CircularProgressIndicator()));
+                  );
         });
   }
 

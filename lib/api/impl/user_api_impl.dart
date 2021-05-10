@@ -11,8 +11,7 @@ class UserApiImpl implements UserApi {
   @override
   Future<User> findByUsername(String username) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    return User.fromJson(jsonDecode(utf8.decode((await http.get(Uri.http(Constants.HOST, url + username),
-        headers: {"Authorization" : "Bearer_" + _prefs.get("token")})).body.runes.toList())));
+    return User.fromJson(jsonDecode(utf8.decode((await http.get(Uri.http(Constants.HOST, url + username))).body.runes.toList())));
   }
 
 }
